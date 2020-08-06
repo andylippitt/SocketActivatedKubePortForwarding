@@ -1,0 +1,16 @@
+[
+  {
+    "Context": "test",
+    "Namespace": "test",
+    "PodPattern": "api",
+    "PodPort": 5001,
+    "LocalPort": 5000
+  },
+  {
+    "Context": "dev",
+    "Namespace": "dev",
+    "PodPattern": "api",
+    "PodPort": 5001,
+    "LocalPort": 5001
+  }
+]

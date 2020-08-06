@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  sakpf:
+    build:
+      context: .
+    ports:
+      - "127.0.0.1:5000-5030:5000-5030"
+    volumes:
+      - ~/.kube/:/root/.kube/
+      - ~/.aws/:/root/.aws/
+      - ./config.json:/app/config.json
