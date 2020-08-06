@@ -12,7 +12,7 @@ COPY --from=build /app/build/SocketActivatedKubePortForwarding /app/SocketActiva
 
 RUN apk add --no-cache \
 	aws-cli \
-    libstdc++ \
+	libstdc++ \
 	libintl
 
-ENTRYPOINT ["/app/SocketActivatedKubePortForwarding"]
+ENTRYPOINT ["/app/SocketActivatedKubePortForwarding", "ipany"]

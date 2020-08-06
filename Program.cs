@@ -24,8 +24,10 @@ namespace PortForwarding
             public int LocalPort { get; set; }
         }
 
-        private static async Task Main()
+        private static async Task Main(string[] args)
         {
+            bool ipAny = args.Any(a => a?.ToLower() == "ipany");
+
             var contextClients = new Dictionary<string, IKubernetes>();
 
             var configuredPairs = JsonConvert.DeserializeObject<List<PortForwardConfig>>(File.ReadAllText("config.json"));
@@ -37,7 +39,16 @@ namespace PortForwarding
                     contextClients.Add(pair.Context, new Kubernetes(KubernetesClientConfiguration.BuildConfigFromConfigFile(currentContext: pair.Context)));
 
                 IKubernetes client = contextClients[pair.Context];
-                pairs.Add(CreateListenerPair(client, pair.Namespace, pair.PodPattern, pair.PodPort, new IPEndPoint(IPAddress.Any, pair.LocalPort), cancellationToken: default));
+                pairs.Add(
+                    CreateListenerPair(
+                        client, 
+                        pair.Namespace, 
+                        pair.PodPattern, 
+                        pair.PodPort, 
+                        new IPEndPoint(ipAny ? IPAddress.Any : IPAddress.Loopback, pair.LocalPort), 
+                        cancellationToken: default
+                    )
+                );
             }
 
             await Task.WhenAny(pairs);
