@@ -7,6 +7,11 @@ services:
     ports:
       - "127.0.0.1:5000-5030:5000-5030"
     volumes:
+      # map the user's .kube foler in for the config
       - ~/.kube/:/root/.kube/
+
+      # (optional) map the user's .aws folder in (this supports EKS)
       - ~/.aws/:/root/.aws/
+
+      # map in the config file that defines the port->pod relationship
       - ./config.json:/app/config.json
